@@ -2,7 +2,6 @@
 import { ref, onMounted, computed } from "vue"
 import { getCard } from "../services/hearthstone.service"
 
-// TODO Never call services on component, use state instead
 const props = defineProps(["cardId"])
 
 onMounted(() => {
@@ -10,26 +9,6 @@ onMounted(() => {
 })
 
 let card = ref({})
-
-const rarity = computed((rarity) => {
-  console.log(rarity)
-  switch (rarity) {
-    case "FREE":
-      "background: white;"
-      break
-    case "RARE":
-      "background: blue;"
-      break
-    case "EPIC":
-      "background: purple;"
-      break
-    case "LEGENDARY":
-      "background: orange;"
-      break
-    default:
-      ""
-  }
-})
 </script>
 
 <template>
@@ -56,7 +35,6 @@ const rarity = computed((rarity) => {
       <div class="media">
         <div class="media-content">
           <p class="title is-4">{{ card.name }}</p>
-          <!-- <div class="card-rarity" :style="rarity(card.rarity)"></div> -->
           <div
             class="card-rarity"
             :style="[
