@@ -14,7 +14,7 @@ let selectedCardCount = ref(0)
 let selectedCards = ref([])
 let roundsCount = ref(0)
 
-async function startGame() {
+async function startGame(): Promise<void> {
   // Reset
   isFinalize.value = true
   selectedCards.value = []
@@ -24,14 +24,14 @@ async function startGame() {
   board.value = cards.value.splice(0, 10)
 }
 
-function onCardClick(id) {
+function onCardClick(id): void {
   if (roundsCount.value == 3) return
-  if (selectedCardCount.value <= 3) {
+  if (selectedCardCount.value <= 2) {
     selectedCardCount.value++
     selectedCards.value.push(id)
   }
 }
-function onDrawCardClick() {
+function onDrawCardClick(): void {
   if (roundsCount.value == 3) return
   selectedCardCount.value = 0
   let cardIndex
@@ -40,11 +40,11 @@ function onDrawCardClick() {
     cardIndex = board.value.findIndex((element) => element == selectedCards.value[i])
     if (cardIndex > -1) board.value.splice(cardIndex, 1, cards.value[i])
   }
-  
+
   roundsCount.value++
 }
 
-async function onFinalizeClick() {
+async function onFinalizeClick(): Promise<void> {
   await startGame()
 }
 </script>

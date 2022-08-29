@@ -25,14 +25,14 @@ async function startGame() {
 }
 
 function onCardClick(id) {
-  if (selectedCardCount.value <= 3) {
+  if (roundsCount.value == 3) return
+  if (selectedCardCount.value <= 2) {
     selectedCardCount.value++
     selectedCards.value.push(id)
   }
 }
 function onDrawCardClick() {
-  if (roundsCount.value >= 3) return
-
+  if (roundsCount.value == 3) return
   selectedCardCount.value = 0
   let cardIndex
 
