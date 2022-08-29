@@ -58,12 +58,13 @@ const rarity = computed((rarity) => {
           <p class="title is-4">{{ card.name }}</p>
           <!-- <div class="card-rarity" :style="rarity(card.rarity)"></div> -->
           <div
-            :class="{
-              'card-rarity has-background-white': card.rarity == 'FREE',
-              'card-rarity has-background-blue': card.rarity == 'RARE',
-              'card-rarity has-background-purple': card.rarity == 'EPIC',
-              'card-rarity has-background-orange': card.rarity == 'LEGENDARY',
-            }"
+            class="card-rarity"
+            :style="[
+              card.rarity == 'FREE' ? 'background: white' : '',
+              card.rarity == 'RARE' ? 'background: blue' : '',
+              card.rarity == 'EPIC' ? 'background: purple' : '',
+              card.rarity == 'LEGENDARY' ? 'background: orange' : '',
+            ]"
           ></div>
         </div>
       </div>
