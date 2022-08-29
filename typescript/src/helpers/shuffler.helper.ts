@@ -7,4 +7,3 @@ export function shuffler(id) {
   // Limit by 30
   return limiterBy(cardIds, 30)
 }
-7
