@@ -8,40 +8,58 @@ onMounted(async () => {
 })
 
 const cards = ref()
-// let deck = ref()
 let board = ref([])
-let drawCards = ref()
 let isFinalize = ref(false)
-let isSelected = ref(false)
+let selectedCardCount = ref(0)
+let selectedCards = ref([])
+let roundsCount = ref(0)
 
 async function startGame() {
+  // Reset
+  isFinalize.value = true
+  selectedCards.value = []
+  selectedCardCount.value = 0
+
   cards.value = await getCards()
   board.value = cards.value.splice(0, 10)
 }
 
-function selectedCard(id) {
-  console.log(...board.value)
-  const cardId = board.value.find((element) => element == id)
-  console.log("cardId: " + cardId)
-  board.value.splice(cardId, 1, cards.value[0])
+function onCardClick(id) {
+  if (selectedCardCount.value <= 3) {
+    selectedCardCount.value++
+    selectedCards.value.push(id)
+  }
+}
+function onDrawCardClick() {
+  if (roundsCount.value >= 3) return
 
-  console.log(board.value[cardId])
+  selectedCardCount.value = 0
+  let cardIndex
+
+  for (let i = 0; i < selectedCards.value.length; i++) {
+    cardIndex = board.value.findIndex((element) => element == selectedCards.value[i])
+    if (cardIndex > -1) board.value.splice(cardIndex, 1, cards.value[i])
+  }
+
+  roundsCount.value++
 }
 
-async function finalize() {
+async function onFinalizeClick() {
   await startGame()
 }
 </script>
 
 <template>
   <div class="board mt-5">
-    <div v-for="card in board">
-      <Card @click="selectedCard(card)" class="card" :card="card" />
+    <div v-for="cardId in board">
+      <Card @click="onCardClick(cardId)" :key="cardId" class="card" :cardId="cardId" />
     </div>
   </div>
   <div class="controls mt-5">
-    <button class="button is-large">Draw (x)</button>
-    <button @click="finalize" class="button my-auto is-small">Finalize</button>
+    <button @click="onDrawCardClick" :disabled="roundsCount == 3" class="button is-large">
+      Draw ({{ selectedCardCount }})
+    </button>
+    <button @click="onFinalizeClick" class="button my-auto is-small">Finalize</button>
   </div>
 </template>
 

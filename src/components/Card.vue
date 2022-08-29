@@ -2,14 +2,14 @@
 import { ref, onMounted, computed } from "vue"
 import { getCard } from "../services/hearthstone.service"
 
+// TODO Never call services on component, use state instead
+const props = defineProps(["cardId"])
+
 onMounted(() => {
-  card.value = getCard(props.card)
-  console.log(card.value)
+  card.value = getCard(props.cardId)
 })
 
-const props = defineProps(["card"])
-
-let card = ref("")
+let card = ref({})
 
 const rarity = computed((rarity) => {
   console.log(rarity)
