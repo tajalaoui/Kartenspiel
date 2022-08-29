@@ -8,28 +8,24 @@ onMounted(async () => {
 })
 
 const cards = ref()
-let deck = ref()
+// let deck = ref()
 let board = ref([])
 let drawCards = ref()
 let isFinalize = ref(false)
+let isSelected = ref(false)
 
 async function startGame() {
   cards.value = await getCards()
   board.value = cards.value.splice(0, 10)
-  console.log(cards.value)
 }
 
 function selectedCard(id) {
-  // board.value.splice(id)
-  const cardId = board.value.findIndex((element) => {
-    element == id
-  })
+  console.log(...board.value)
+  const cardId = board.value.find((element) => element == id)
+  console.log("cardId: " + cardId)
+  board.value.splice(cardId, 1, cards.value[0])
 
-  console.log(cardId)
-
-  for (let i = 0; i < board.value.length; i++) {
-    console.log(board.value[i])
-  }
+  console.log(board.value[cardId])
 }
 
 async function finalize() {
